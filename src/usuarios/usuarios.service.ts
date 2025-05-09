@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { UpdatePreferenciasDto } from './dto/update-preferencias.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Usuario, UsuarioDocument } from './schemas/usuario.schema';
 
 @Injectable()
@@ -17,13 +18,17 @@ export class UsuariosService {
     return usuario;
   }
 
-  async updatePreferencias(id: string, preferencias: number[]) {
-    const usuario = await this.usuarioModel.findById(id);
-    if (!usuario) {
-      throw new Error('Usuario no encontrado');
-    }
-
-    usuario.preferencias = preferencias;
-    return usuario.save();
+  async updatePreferencias(id: string, preferencias: UpdatePreferenciasDto['preferencias']) {
+    const preferenciasConObjectId = preferencias.map((pref) => ({
+      atributoID: new Types.ObjectId(pref.atributoID),
+      conteo: pref.conteo,
+    }));
+  
+    return this.usuarioModel.findByIdAndUpdate(
+      id,
+      { preferencias: preferenciasConObjectId },
+      { new: true }
+    );
   }
+
 }

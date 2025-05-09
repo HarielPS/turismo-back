@@ -25,6 +25,26 @@ export class Proveedor {
 
   @Prop({ required: true, enum: ['Física', 'Moral'] })
   tipo_persona_proveedor: 'Física' | 'Moral';
+
+  @Prop({ required: true })
+  alta_proveedor: boolean;
+
+  @Prop({ required: true })
+  fecha_creacion: Date;
+
+  @Prop()
+  fecha_login: Date;
+
+  // opcional en la creación del proveedor
+
+  @Prop()
+  img?: string; 
+
+  @Prop()
+  descripcion?: string;
+
+
+
 }
 
 export const ProveedorSchema = SchemaFactory.createForClass(Proveedor);

@@ -1,5 +1,7 @@
 import { Controller, Get, Body, Param, Put } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
+import { UpdatePreferenciasDto } from './dto/update-preferencias.dto';
+
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -11,9 +13,10 @@ export class UsuariosController {
   }
 
   @Put(':id/preferencias')
-  async updatePreferencias(@Param('id') id: string, @Body() preferencias: any) {
-    const usuario = await this.usuariosService.findById(id);
-    usuario.preferencias = preferencias;
-    return await usuario.save();
+  async updatePreferencias(
+    @Param('id') id: string,
+    @Body() body: UpdatePreferenciasDto,
+  ) {
+    return this.usuariosService.updatePreferencias(id, body.preferencias);
   }
 }

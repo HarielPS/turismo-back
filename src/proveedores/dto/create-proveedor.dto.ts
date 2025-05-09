@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString, IsIn, IsPhoneNumber } from 'class-validator';
+import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString, IsIn, IsPhoneNumber, IsDate } from 'class-validator';
 
 export class CreateProveedorDto {
   @IsNotEmpty()
@@ -28,5 +28,29 @@ export class CreateProveedorDto {
   @IsNotEmpty()
   @IsIn(['Física', 'Moral'])
   tipo_persona_proveedor: string; 
+
+  @IsOptional()
+  @IsBoolean()
+    alta_proveedor: boolean;
+
+  @IsOptional()
+  @IsDate()
+  fecha_creacion: Date;
+
+  @IsOptional()
+  @IsDate()
+  fecha_login?: Date;
+  
+  @IsOptional()
+  @IsString()
+  img?: string;
+
+  @IsOptional()
+  @IsString()
+  descripcion?: string;
+
+
+
+
 
 }
