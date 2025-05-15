@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Atributo, AtributoDocument } from './schemas/atributo.schema';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class AtributosService {
@@ -43,6 +44,6 @@ export class AtributosService {
 
   // Obtener subatributos (por padre)
   async obtenerPorPadre(idPadre: string): Promise<Atributo[]> {
-    return this.atributoModel.find({ padre: new Types.ObjectId(idPadre) }).exec();
+    return this.atributoModel.find({ padre: new ObjectId(idPadre) }).exec();
   }
 }

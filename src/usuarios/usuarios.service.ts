@@ -3,6 +3,8 @@ import { UpdatePreferenciasDto } from './dto/update-preferencias.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Usuario, UsuarioDocument } from './schemas/usuario.schema';
+import { ObjectId } from 'mongodb';
+
 
 @Injectable()
 export class UsuariosService {
@@ -20,7 +22,7 @@ export class UsuariosService {
 
   async updatePreferencias(id: string, preferencias: UpdatePreferenciasDto['preferencias']) {
     const preferenciasConObjectId = preferencias.map((pref) => ({
-      atributoID: new Types.ObjectId(pref.atributoID),
+      atributoID: new ObjectId(pref.atributoID),
       conteo: pref.conteo,
     }));
   

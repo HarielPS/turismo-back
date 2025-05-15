@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,11 +10,21 @@ import { AtributosModule } from './atributos/atributos.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ 
-      isGlobal: true ,
+    ConfigModule.forRoot({
+      isGlobal: true,
       envFilePath: '.env.local',
     }),
-    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/turismo'),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const uri = configService.get<string>('MONGODB_URI');
+        console.log('📦 MONGODB_URI cargada:', uri);
+        return {
+          uri: uri || 'mongodb://localhost:27017/turismo',
+        };
+      },
+    }),
     AuthModule,
     UsuariosModule,
     ProveedoresModule,
