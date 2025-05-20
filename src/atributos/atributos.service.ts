@@ -27,6 +27,16 @@ export class AtributosService {
     return this.atributoModel.findById(id).exec();
   }
 
+  // Obtener múltiples atributos por sus IDs
+  // async obtenerPorIds(ids: string[]): Promise<Atributo[]> {
+  //   const objectIds = ids.map(id => new Types.ObjectId(id));
+  //   return this.atributoModel.find({ _id: { $in: objectIds } }).exec();
+  // }
+  async obtenerPorIds(ids: string[]): Promise<Atributo[]> {
+  const objectIds = ids.map(id => new Types.ObjectId(id));
+  return this.atributoModel.find({ _id: { $in: objectIds } }).exec();
+  }
+
   // Actualizar un atributo
   async actualizar(id: string, data: Partial<Atributo>): Promise<Atributo | null> {
     return this.atributoModel.findByIdAndUpdate(id, data, { new: true }).exec();

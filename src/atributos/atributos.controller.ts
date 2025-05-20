@@ -37,6 +37,11 @@ export class AtributosController {
     return this.atributosService.obtenerPorId(id);
   }
 
+  @Post('ids')
+  async obtenerAtributosPorIds(@Body() body: { ids: string[] }) {
+    return this.atributosService.obtenerPorIds(body.ids);
+  }
+
   @Put(':id')
   actualizar(@Param('id') id: string, @Body() data: Partial<Atributo>) {
     return this.atributosService.actualizar(id, data);

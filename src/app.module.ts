@@ -7,6 +7,8 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { ProveedoresModule } from './proveedores/proveedores.module';
 import { AuthModule } from './auth/auth.module';
 import { AtributosModule } from './atributos/atributos.module';
+import { ServicioModule } from './servicio/servicio.module';
+import { PuebloModule } from './pueblo/pueblo.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { AtributosModule } from './atributos/atributos.module';
     UsuariosModule,
     ProveedoresModule,
     AtributosModule,
+    ServicioModule,
+    PuebloModule,
   ],
   controllers: [AppController],
   providers: [AppService],
