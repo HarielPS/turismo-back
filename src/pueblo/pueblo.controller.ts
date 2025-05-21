@@ -9,26 +9,26 @@ export class PuebloController {
 
   @Post()
   create(@Body() createPuebloDto: CreatePuebloDto) {
-    return this.puebloService.create(createPuebloDto);
+    return this.puebloService.crear(createPuebloDto);
   }
 
   @Get()
   findAll() {
-    return this.puebloService.findAll();
+    return this.puebloService.obtenerTodos();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.puebloService.findOne(+id);
+    return this.puebloService.obtenerPorId(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePuebloDto: UpdatePuebloDto) {
-    return this.puebloService.update(+id, updatePuebloDto);
+    return this.puebloService.actualizar(id, updatePuebloDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.puebloService.remove(+id);
+    return this.puebloService.eliminar(id);
   }
 }

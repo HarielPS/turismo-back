@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
 import { CreatePuebloDto } from './dto/create-pueblo.dto';
 import { UpdatePuebloDto } from './dto/update-pueblo.dto';
+import { Pueblo } from './entities/pueblo.entity';
 
 @Injectable()
 export class PuebloService {
-  create(createPuebloDto: CreatePuebloDto) {
-    return 'This action adds a new pueblo';
+  constructor(
+    @InjectModel(Pueblo.name)
+    private readonly atributoModel: Model<Pueblo>,
+  ) {}
+  // Crear nuevo
+  async crear(data: Partial<Pueblo>): Promise<Pueblo> {
+    const nuevo = new this.atributoModel(data);
+    return nuevo.save();
   }
 
-  findAll() {
-    return `This action returns all pueblo`;
+  // Obtener todos los atributos
+  async obtenerTodos(): Promise<Pueblo[]> {
+    return this.atributoModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pueblo`;
+  // Obtener uno por ID
+  async obtenerPorId(id: string): Promise<Pueblo | null> {
+    return this.atributoModel.findById(id).exec();
   }
 
-  update(id: number, updatePuebloDto: UpdatePuebloDto) {
-    return `This action updates a #${id} pueblo`;
+  // actualizar
+  async actualizar(id: string, data: Partial<Pueblo>): Promise<Pueblo | null> {
+    return this.atributoModel.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pueblo`;
+  // eliminar
+  async eliminar(id: string): Promise<Pueblo | null> {
+    return this.atributoModel.findByIdAndDelete(id).exec();
   }
+  
+
 }
