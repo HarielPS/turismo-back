@@ -1,34 +1,33 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import * as compression from 'compression';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // --- Middleware de registro ---
-  app.use((req, res, next) => {
-    console.log(`[NEST] ${req.method} ${req.url}`);
-    next();
-  });
-  // -----------------------------
+  // GZIP para reducir carga en la memoria/transporte
+  app.use(compression());
 
-  
+  // Validaciones globales
   app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,    // elimina propiedades no definidas en el DTO
-    transform: true,     // convierte strings a Date, booleanos, etc.
+    whitelist: true,
+    transform: true,
     transformOptions: {
-      enableImplicitConversion: true, // convierte strings a Date, booleanos, etc.
+      enableImplicitConversion: true,
     },
   }));
 
+  // CORS para que funcione con el frontend (ajusta origin si es necesario)
   app.enableCors({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
   });
 
-  const PORT = process.env.PORT ?? 3000;
-  await app.listen(PORT);
-  console.log(`Aplicación corriendo en: http://localhost:${PORT}`);
+  // Usa el puerto que Render inyecta por variable de entorno
+  const PORT = process.env.PORT || 3000;
+  await app.listen(PORT);
+  console.log(`Aplicación corriendo en: http://localhost:${PORT}`);
 }
 bootstrap();
