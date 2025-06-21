@@ -5,6 +5,14 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // --- Middleware de registro ---
+  app.use((req, res, next) => {
+    console.log(`[NEST] ${req.method} ${req.url}`);
+    next();
+  });
+  // -----------------------------
+
+  
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,    // elimina propiedades no definidas en el DTO
     transform: true,     // convierte strings a Date, booleanos, etc.

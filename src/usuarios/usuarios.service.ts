@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Usuario, UsuarioDocument } from './schemas/usuario.schema';
 import { ObjectId } from 'mongodb';
+import { UpdateUserInfoDto } from './dto/update-usuario.dto';
 
 
 @Injectable()
@@ -31,6 +32,21 @@ export class UsuariosService {
       { preferencias: preferenciasConObjectId },
       { new: true }
     );
+  }
+
+  async updatePerfil(id: string, updateData: UpdateUserInfoDto) {
+    console.log('Datos a actualizar (desde nest service):', updateData);
+    const usuarioActualizado = await this.usuarioModel.findByIdAndUpdate(
+      id,
+      { $set: updateData },
+      { new: true },
+    );
+
+    if (!usuarioActualizado) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    return usuarioActualizado;
   }
 
 }

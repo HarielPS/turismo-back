@@ -9,6 +9,9 @@ import { AuthModule } from './auth/auth.module';
 import { AtributosModule } from './atributos/atributos.module';
 import { ServicioModule } from './servicio/servicio.module';
 import { PuebloModule } from './pueblo/pueblo.module';
+import { HotelModule } from './hotel/hotel.module';
+import { RestaurantModule } from './restaurant/restaurant.module';
+import { PlannerModule } from './planner/planner.module';
 
 @Module({
   imports: [
@@ -33,6 +36,9 @@ import { PuebloModule } from './pueblo/pueblo.module';
     AtributosModule,
     ServicioModule,
     PuebloModule,
+    HotelModule,
+    RestaurantModule,
+    PlannerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

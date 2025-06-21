@@ -11,5 +11,6 @@ import { AtributosController } from './atributos.controller';
   ],
   controllers: [AtributosController],
   providers: [AtributosService],
+  exports: [AtributosService], 
 })
 export class AtributosModule {}
