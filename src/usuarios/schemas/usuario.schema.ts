@@ -14,6 +14,36 @@ export class PreferenciaItem {
 export const PreferenciaItemSchema = SchemaFactory.createForClass(PreferenciaItem);
 
 @Schema()
+export class ActividadGuardada {
+  @Prop({ required: true })
+  id: string;
+
+  @Prop({ required: true, enum: ['servicio', 'hotel', 'alimento'] })
+  tipo: 'servicio' | 'hotel' | 'alimento';
+
+  @Prop({ required: true, enum: ['reserva', 'eliminar'], default: 'reserva' })
+  estado: 'reserva' | 'eliminar';
+}
+export const ActividadGuardadaSchema = SchemaFactory.createForClass(ActividadGuardada);
+
+@Schema()
+export class RutaGuardada {
+  @Prop({ required: true })
+  id: string;
+
+  @Prop({ required: true, enum: ['reserva', 'eliminar'], default: 'reserva' })
+  status: 'reserva' | 'eliminar';
+
+  @Prop({ required: true })
+  fecha_guardado: string;
+
+  @Prop({ type: [ActividadGuardadaSchema], default: [] })
+  actividades: ActividadGuardada[];
+}
+export const RutaGuardadaSchema = SchemaFactory.createForClass(RutaGuardada);
+
+
+@Schema()
 export class Usuario {
   @Prop({ required: true })
   nombre_viajero: string;
@@ -58,6 +88,9 @@ export class Usuario {
 
   @Prop()
   descripcion?: string;
+
+  @Prop({ type: [RutaGuardadaSchema], default: [] })
+  guardado: RutaGuardada[];
 
 }
 

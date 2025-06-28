@@ -5,6 +5,7 @@ import { Model, Types } from 'mongoose';
 import { Usuario, UsuarioDocument } from './schemas/usuario.schema';
 import { ObjectId } from 'mongodb';
 import { UpdateUserInfoDto } from './dto/update-usuario.dto';
+import { GuardarRutaDto } from './dto/guardar-ruta.dto';
 
 
 @Injectable()
@@ -48,5 +49,32 @@ export class UsuariosService {
 
     return usuarioActualizado;
   }
+
+  async agregarRutaGuardada(userId: string, ruta: GuardarRutaDto) {
+    const usuario = await this.usuarioModel.findById(userId);
+    if (!usuario) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    usuario.guardado.push(ruta as any); // puedes usar cast o tipar correctamente
+    await usuario.save();
+
+    return usuario;
+  }
+
+  async actualizarRutaGuardada(userId: string, rutaId: string, datos: Partial<GuardarRutaDto>) {
+    const user = await this.usuarioModel.findById(userId);
+    if (!user) throw new NotFoundException('Usuario no encontrado');
+
+    const ruta = user.guardado.find(r => r.id === rutaId);
+    if (!ruta) throw new NotFoundException('Ruta no encontrada');
+
+    if (datos.status) ruta.status = datos.status;
+    if (datos.actividades) ruta.actividades = datos.actividades;
+
+    await user.save();
+    return ruta;
+  }
+
 
 }
